@@ -7,17 +7,18 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var domContainer = document.getElementById('root');
-var e = React.createElement;
+var React = require('react');
+var Sound = require('react-sound').default;
 
-var LikeButton = function (_React$Component) {
-  _inherits(LikeButton, _React$Component);
+var Timer = function (_React$Component) {
+  _inherits(Timer, _React$Component);
 
-  function LikeButton(props) {
-    _classCallCheck(this, LikeButton);
+  function Timer(props) {
+    _classCallCheck(this, Timer);
 
-    var _this = _possibleConstructorReturn(this, (LikeButton.__proto__ || Object.getPrototypeOf(LikeButton)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (Timer.__proto__ || Object.getPrototypeOf(Timer)).call(this, props));
 
-    _this.state = { value: '' };
+    _this.state = { value: '', isPlay: false };
 
     _this.handleChange = _this.handleChange.bind(_this);
     _this.handleSubmit = _this.handleSubmit.bind(_this);
@@ -25,7 +26,7 @@ var LikeButton = function (_React$Component) {
     return _this;
   }
 
-  _createClass(LikeButton, [{
+  _createClass(Timer, [{
     key: 'handleChange',
     value: function handleChange(event) {
       this.setState({ value: event.target.value });
@@ -33,19 +34,22 @@ var LikeButton = function (_React$Component) {
   }, {
     key: 'handleSubmit',
     value: function handleSubmit(event) {
+      var _this2 = this;
+
       event.preventDefault();
       if (this.lastTimerId) {
         clearInterval(this.lastTimerId);
       }
       var ms = this.state.value * 60000;
+      alert('Get Up Stand Up in ' + this.state.value + ' minutes ! ');
       this.lastTimerId = setInterval(function () {
-        return alert('Get Up stand Up !');
+        _this2.setState({ isPlay: true });
       }, ms);
     }
   }, {
     key: 'render',
     value: function render() {
-      return React.createElement(
+      var input = React.createElement(
         'form',
         { onSubmit: this.handleSubmit },
         React.createElement(
@@ -56,10 +60,19 @@ var LikeButton = function (_React$Component) {
         ),
         React.createElement('input', { type: 'submit', value: 'Submit' })
       );
+
+      var timer = React.createElement(
+        'div',
+        null,
+        this.state.isPlay ? React.createElement(Sound, { url: 'alarm.wav',
+          playStatus: Sound.status.PLAYING }) : '',
+        input
+      );
+      return timer;
     }
   }]);
 
-  return LikeButton;
+  return Timer;
 }(React.Component);
 
-ReactDOM.render(e(LikeButton), domContainer);
+ReactDOM.render(React.createElement(Timer, null), domContainer);
