@@ -64,7 +64,7 @@ var Timer = function (_React$Component) {
       var timer = React.createElement(
         'div',
         null,
-        this.state.isPlay ? React.createElement(Sound, { url: 'alarm.wav',
+        this.state.isPlay ? React.createElement(Sound, { url: 'spongebob-dolphin-censor.mp3',
           playStatus: Sound.status.PLAYING }) : '',
         input
       );

@@ -41,7 +41,7 @@ class Timer extends React.Component {
     
     const timer = 
       <div>
-        {this.state.isPlay ? <Sound url="alarm.wav" 
+        {this.state.isPlay ? <Sound url="spongebob-dolphin-censor.mp3" 
                               playStatus={Sound.status.PLAYING}/>
                      : ''}
         {input}
