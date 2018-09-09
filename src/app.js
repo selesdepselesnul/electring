@@ -15,7 +15,8 @@ class LikeButton extends React.Component {
   }
 
   handleSubmit(event) {
-    alert('Time was submitted: ' + this.state.value);
+    const ms = this.state.value * 60000;
+    alert('Time was submitted (in ms): ' + ms);
     event.preventDefault();
   }
 
