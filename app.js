@@ -21,6 +21,7 @@ var LikeButton = function (_React$Component) {
 
     _this.handleChange = _this.handleChange.bind(_this);
     _this.handleSubmit = _this.handleSubmit.bind(_this);
+    _this.lastTimerId = null;
     return _this;
   }
 
@@ -32,9 +33,14 @@ var LikeButton = function (_React$Component) {
   }, {
     key: 'handleSubmit',
     value: function handleSubmit(event) {
-      var ms = this.state.value * 60000;
-      alert('Time was submitted (in ms): ' + ms);
       event.preventDefault();
+      if (this.lastTimerId) {
+        clearInterval(this.lastTimerId);
+      }
+      var ms = this.state.value * 60000;
+      this.lastTimerId = setInterval(function () {
+        return alert('Get Up stand Up !');
+      }, ms);
     }
   }, {
     key: 'render',

@@ -8,6 +8,7 @@ class LikeButton extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.lastTimerId = null;
   }
 
   handleChange(event) {
@@ -15,9 +16,12 @@ class LikeButton extends React.Component {
   }
 
   handleSubmit(event) {
-    const ms = this.state.value * 60000;
-    alert('Time was submitted (in ms): ' + ms);
     event.preventDefault();
+    if(this.lastTimerId) {
+      clearInterval(this.lastTimerId);
+    }
+    const ms = this.state.value * 60000;
+    this.lastTimerId = setInterval(() => alert('Get Up stand Up !'), ms);
   }
 
   render() {
