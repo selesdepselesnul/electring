@@ -17,25 +17,37 @@ var LikeButton = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (LikeButton.__proto__ || Object.getPrototypeOf(LikeButton)).call(this, props));
 
-    _this.state = { liked: false };
+    _this.state = { value: '' };
+
+    _this.handleChange = _this.handleChange.bind(_this);
+    _this.handleSubmit = _this.handleSubmit.bind(_this);
     return _this;
   }
 
   _createClass(LikeButton, [{
+    key: 'handleChange',
+    value: function handleChange(event) {
+      this.setState({ value: event.target.value });
+    }
+  }, {
+    key: 'handleSubmit',
+    value: function handleSubmit(event) {
+      alert('Time was submitted: ' + this.state.value);
+      event.preventDefault();
+    }
+  }, {
     key: 'render',
     value: function render() {
-      var _this2 = this;
-
-      if (this.state.liked) {
-        return 'You liked this.';
-      }
-
       return React.createElement(
-        'button',
-        { onClick: function onClick() {
-            return _this2.setState({ liked: true });
-          } },
-        'Like'
+        'form',
+        { onSubmit: this.handleSubmit },
+        React.createElement(
+          'label',
+          null,
+          'Time (in minutes):',
+          React.createElement('input', { type: 'number', value: this.state.value, onChange: this.handleChange })
+        ),
+        React.createElement('input', { type: 'submit', value: 'Submit' })
       );
     }
   }]);

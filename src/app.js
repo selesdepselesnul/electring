@@ -4,19 +4,31 @@ const e = React.createElement;
 class LikeButton extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { liked: false };
+    this.state = {value: ''};
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({value: event.target.value});
+  }
+
+  handleSubmit(event) {
+    alert('Time was submitted: ' + this.state.value);
+    event.preventDefault();
   }
 
   render() {
-    if (this.state.liked) {
-      return 'You liked this.';
-    }
-
     return (
-        <button onClick={() => this.setState({ liked: true })}>
-          Like
-        </button>
-      );
+      <form onSubmit={this.handleSubmit}>
+        <label>
+          Time (in minutes):
+          <input type="number" value={this.state.value} onChange={this.handleChange} />
+        </label>
+        <input type="submit" value="Submit" />
+      </form>
+    );
   }
 }
 
