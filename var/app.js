@@ -11,68 +11,83 @@ var React = require('react');
 var Sound = require('react-sound').default;
 
 var Timer = function (_React$Component) {
-  _inherits(Timer, _React$Component);
+    _inherits(Timer, _React$Component);
 
-  function Timer(props) {
-    _classCallCheck(this, Timer);
+    function Timer(props) {
+        _classCallCheck(this, Timer);
 
-    var _this = _possibleConstructorReturn(this, (Timer.__proto__ || Object.getPrototypeOf(Timer)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (Timer.__proto__ || Object.getPrototypeOf(Timer)).call(this, props));
 
-    _this.state = { value: '', isPlay: false };
+        _this.state = {
+            value: '',
+            isPlay: false,
+            isRunning: false
+        };
 
-    _this.handleChange = _this.handleChange.bind(_this);
-    _this.handleSubmit = _this.handleSubmit.bind(_this);
-    _this.lastTimerId = null;
-    return _this;
-  }
-
-  _createClass(Timer, [{
-    key: 'handleChange',
-    value: function handleChange(event) {
-      this.setState({ value: event.target.value });
+        _this.handleChange = _this.handleChange.bind(_this);
+        _this.handleSubmit = _this.handleSubmit.bind(_this);
+        _this.lastTimerId = null;
+        return _this;
     }
-  }, {
-    key: 'handleSubmit',
-    value: function handleSubmit(event) {
-      var _this2 = this;
 
-      event.preventDefault();
-      if (this.lastTimerId) {
-        clearInterval(this.lastTimerId);
-      }
-      var ms = this.state.value * 60000;
-      alert('Get Up Stand Up in ' + this.state.value + ' minutes ! ');
-      this.lastTimerId = setInterval(function () {
-        _this2.setState({ isPlay: true });
-      }, ms);
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var input = React.createElement(
-        'form',
-        { onSubmit: this.handleSubmit },
-        React.createElement(
-          'label',
-          null,
-          'Time (in minutes):',
-          React.createElement('input', { type: 'number', value: this.state.value, onChange: this.handleChange })
-        ),
-        React.createElement('input', { type: 'submit', value: 'Submit' })
-      );
+    _createClass(Timer, [{
+        key: 'handleChange',
+        value: function handleChange(event) {
+            this.setState({ value: event.target.value });
+        }
+    }, {
+        key: 'handleSubmit',
+        value: function handleSubmit(event) {
+            var _this2 = this;
 
-      var timer = React.createElement(
-        'div',
-        null,
-        this.state.isPlay ? React.createElement(Sound, { url: 'spongebob-dolphin-censor.mp3',
-          playStatus: Sound.status.PLAYING }) : '',
-        input
-      );
-      return timer;
-    }
-  }]);
+            event.preventDefault();
 
-  return Timer;
+            if (!this.state.isRunning) {
+                this.setState({ isRunning: true });
+                if (this.lastTimerId) {
+                    clearInterval(this.lastTimerId);
+                }
+                var ms = this.state.value * 60000;
+                alert('Get Up Stand Up in ' + this.state.value + ' minutes ! ');
+                this.lastTimerId = setInterval(function () {
+                    _this2.setState({ isPlay: true });
+                }, ms);
+            } else {
+                clearInterval(this.lastTimerId);
+                this.setState({ isRunning: false, isPlay: false });
+            }
+        }
+    }, {
+        key: 'sound',
+        value: function sound(status) {
+            return React.createElement(Sound, { url: 'spongebob-dolphin-censor.mp3', playStatus: status });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var input = React.createElement(
+                'form',
+                { onSubmit: this.handleSubmit },
+                React.createElement(
+                    'label',
+                    null,
+                    'Time (in minutes):',
+                    React.createElement('input', { type: 'number', value: this.state.value, onChange: this.handleChange })
+                ),
+                React.createElement('input', { type: 'submit', value: this.state.isRunning ? "Stop" : "Start" })
+            );
+
+            var timer = React.createElement(
+                'div',
+                null,
+                this.state.isPlay ? this.sound(Sound.status.PLAYING) : this.sound(Sound.status.STOPPED),
+                input
+            );
+            return timer;
+        }
+    }]);
+
+    return Timer;
 }(React.Component);
 
 ReactDOM.render(React.createElement(Timer, null), domContainer);
